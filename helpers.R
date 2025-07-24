@@ -158,3 +158,43 @@ trubble <- function(cts) {
     cat(output2)
 }
 
+
+# Custom HTSeq count loader that is tolerant to different column names
+htseq_to_mtx <- function(files) {
+    if (is.character(files)) {
+        file_names <- files
+        file_paths <- files
+    } else {
+        file_names <- files$name
+        file_paths <- files$datapath
+    }
+
+    df_list <- list()
+    for (i in seq_along(file_paths)) {
+        df <- read.table(file_paths[i], header = TRUE, check.names = FALSE)
+        # detect gene and count columns
+        gene_candidates <- c('gene_id', 'Geneid', 'GeneID', 'Gene', 'gene', colnames(df)[1])
+        count_candidates <- c('raw_count', 'count', 'Counts', 'htseq_count', colnames(df)[2])
+        gene_col <- intersect(gene_candidates, colnames(df))[1]
+        count_col <- intersect(count_candidates, colnames(df))[1]
+        if (is.na(gene_col) || is.na(count_col)) {
+            stop('Unrecognized HTSeq count file format')
+        }
+        df$symbol <- stringr::str_split(df[[gene_col]], pattern = '\\|') %>%
+            purrr::map_chr(`[`, 1)
+        df <- df %>%
+            dplyr::filter(.data$symbol != '?') %>%
+            dplyr::select(.data$symbol, !!count_col)
+        names(df)[2] <- 'raw_count'
+        df <- df[!duplicated(df$symbol),]
+        df$sample <- basename(file_names)[i]
+        df_list[[i]] <- df
+    }
+
+    a <- dplyr::bind_rows(df_list) %>%
+        tidyr::pivot_wider(names_from = .data$sample, values_from = .data$raw_count)
+    mtx <- as.matrix(a[,-1])
+    rownames(mtx) <- a$symbol
+    return(mtx)
+}
+
