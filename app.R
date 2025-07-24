@@ -11,20 +11,20 @@ options(spinner.type = 8)
 
 # user interface
 ui <- navbarPage(
-    
+
     theme = shinytheme("yeti"),
     title = "Genomic Data Explorer",
     id = "tabs",
-    
+
+    header = tags$head(tags$link(rel = "stylesheet",
+                                 type = "text/css",
+                                 href = "style.css")),
+
     # tab_design.R
     tab_file,
     tab_rna,
     tab_help,
-    tab_about,
-    
-    tags$head(tags$link(rel = "stylesheet", 
-                        type = "text/css", 
-                        href = "style.css"))
+    tab_about
 )
 
 # server function
