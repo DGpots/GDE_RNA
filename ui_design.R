@@ -11,9 +11,9 @@ button_cts_upload <- function() {
 }
 
 button_cts_process <- function() {
-    actionButton(inputId = "cts_process_click", 
-                 label = "2. Pre-Process Count and Metadata", 
-                 icon = icon("files-o"), 
+    actionButton(inputId = "cts_process_click",
+                 label = "2. Pre-Process Count and Metadata",
+                 icon = icon("file"),
                  class = "btn-upload")
 }
 
