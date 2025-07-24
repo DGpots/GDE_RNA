@@ -56,12 +56,32 @@ server <- function(input, output, session) {
     cts_raw <- eventReactive(input$cts_upload_click, {
         if (input$cts_source == "Example") {
             readRDS("./data/example_mtx.rds")
-        } else if (input$cts_source == "Upload"){
-            withProgress(message = "Loading Data..", value = 0.5, {
-            htseq_to_mtx(input$cts_files)
+        } else if (input$cts_source == "Upload") {
+            withProgress(message = "Loading Data…", value = 0.5, {
+                # Manually load HTSeq‐style files for mouse genes
+                files   <- input$cts_files$datapath
+                samples <- tools::file_path_sans_ext(basename(files))
+                # Read each file into a named vector of counts
+                mat_list <- lapply(files, function(f) {
+                    d <- read.table(f, header = FALSE, sep = "\t",
+                                    stringsAsFactors = FALSE)
+                    # d[,1] = gene_id, d[,2] = count
+                    setNames(d[,2], d[,1])
+                })
+                # Combine into a matrix and then a data frame
+                mat <- do.call(cbind, mat_list)
+                colnames(mat) <- samples
+                df <- as.data.frame(mat, stringsAsFactors = FALSE)
+                # Use your mouse gene IDs as the “symbol” column
+                df$symbol <- rownames(df)
+                df
             })
-        } else {}
+        } else {
+            NULL
+        }
     })
+    
+    
     
     # Raw Data Input - Messages
     output$mt_message <- renderText({
