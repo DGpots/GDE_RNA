@@ -49,6 +49,7 @@ server <- function(input, output, session) {
         if (input$cts_source == "Example") {
             read_csv("./data/metadata.csv")
         } else if (input$cts_source == "Upload") {
+            validate(need(input$meta_file, "Please Upload Metadata"))
             read_csv(input$meta_file$datapath)
         } else {}
     })
@@ -57,8 +58,9 @@ server <- function(input, output, session) {
         if (input$cts_source == "Example") {
             readRDS("./data/example_mtx.rds")
         } else if (input$cts_source == "Upload"){
+            validate(need(input$cts_files, "Please Upload Count Data"))
             withProgress(message = "Loading Data..", value = 0.5, {
-            htseq_to_mtx(input$cts_files)
+                htseq_to_mtx(input$cts_files)
             })
         } else {}
     })
