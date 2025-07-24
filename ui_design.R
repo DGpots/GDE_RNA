@@ -11,9 +11,9 @@ button_cts_upload <- function() {
 }
 
 button_cts_process <- function() {
-    actionButton(inputId = "cts_process_click", 
-                 label = "2. Pre-Process Count and Metadata", 
-                 icon = icon("files-o"), 
+    actionButton(inputId = "cts_process_click",
+                 label = "2. Pre-Process Count and Metadata",
+                 icon = icon("file"),
                  class = "btn-upload")
 }
 
@@ -41,7 +41,7 @@ button_dge <- function() {
 button_read_gene <- function(value) {
     actionButton(inputId = paste0("rna_gene_read", as.character(value)),
                  label = "Plot",
-                 icon = icon("picture-o"),
+                 icon = icon("image"),
                  class = "btn-plot")
 }
 
