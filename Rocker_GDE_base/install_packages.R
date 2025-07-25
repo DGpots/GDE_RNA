@@ -2,7 +2,7 @@
 # Installed packages: shiny, tidyverse, devtools
 
 
-install.packages(c('magrittr','shinythemes','shinyWidgets','DT','RColorBrewer','circlize','scales','R.utils'), repos = 'http://cran.rstudio.com/')
+install.packages(c('magrittr','shinythemes','shinyWidgets','DT','RColorBrewer','circlize','scales','R.utils','here'), repos = 'http://cran.rstudio.com/')
 
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")

@@ -6,6 +6,7 @@ packages <- c("shiny",
               "tidyverse", "magrittr","DT", 
               "RColorBrewer", "circlize", "ComplexHeatmap", "scales",
               "fgsea",
-              "xmcutil")
+              "xmcutil",
+              "here")
 
 lapply(packages, require, character.only = TRUE)
