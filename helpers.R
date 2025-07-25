@@ -183,8 +183,8 @@ htseq_to_mtx <- function(files) {
         df$symbol <- stringr::str_split(df[[gene_col]], pattern = '\\|') %>%
             purrr::map_chr(`[`, 1)
         df <- df %>%
-            dplyr::filter(.data$symbol != '?') %>%
-            dplyr::select(.data$symbol, !!count_col)
+            dplyr::filter(symbol != '?') %>%
+            dplyr::select(symbol, !!count_col)
         names(df)[2] <- 'raw_count'
         df <- df[!duplicated(df$symbol),]
         df$sample <- basename(file_names)[i]
@@ -192,7 +192,7 @@ htseq_to_mtx <- function(files) {
     }
 
     a <- dplyr::bind_rows(df_list) %>%
-        tidyr::pivot_wider(names_from = .data$sample, values_from = .data$raw_count)
+        tidyr::pivot_wider(names_from = sample, values_from = raw_count)
     mtx <- as.matrix(a[,-1])
     rownames(mtx) <- a$symbol
     return(mtx)
