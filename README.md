@@ -99,3 +99,14 @@ The file upload section contains three options. By default, the option "Example"
 - Upload - users can upload HTSeq-count output files, with one file per sample.
 - Select - a placeholder for further development. (e.g.: a dedicated storage folder can be configured to allow users to select files/data if the app is hosted on a server).
 
+
+### 4. Metadata Matching
+
+When using the **Upload** option, the column selected for *File Names* must match the uploaded count file names exactly. The preprocessing step relies on these names to align the metadata with the count matrix. If the names do not correspond (for example, missing extensions or additional spaces), the app will show the message:
+
+```
+Name matching returns count matrix with 0 samples.
+Please make sure the columns of sample names and files names are chosen correctly.
+```
+
+Ensure your metadata lists the same file names (including extensions) as the uploaded files so that each sample is correctly identified.
