@@ -99,3 +99,13 @@ The file upload section contains three options. By default, the option "Example"
 - Upload - users can upload HTSeq-count output files, with one file per sample.
 - Select - a placeholder for further development. (e.g.: a dedicated storage folder can be configured to allow users to select files/data if the app is hosted on a server).
 
+### 4. Metadata File Format
+
+When using the "Upload" option, provide a CSV file containing at least two columns named `Sample` and `File`. Each row should correspond to a sample, and the `File` column must match the name of the HTSeq-count file for that sample. Additional columns can be included to describe sample attributes such as treatment or clinical information. A minimal example looks like:
+
+```csv
+Sample,File
+SampleA,/path/to/sampleA.tsv
+SampleB,/path/to/sampleB.tsv
+```
+
