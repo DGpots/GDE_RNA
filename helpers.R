@@ -5,7 +5,7 @@ df_to_signature <- function(df) {
     pathways <- unique(df[[1]])
     sig <- list()
     
-    for (i in seq_along(1:length(pathways))) {
+    for (i in seq_along(pathways)) {
         sig[[i]] <- df %>%
             filter(pathway == pathways[i]) %>%
             pull(gene)
